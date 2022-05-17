@@ -14,22 +14,16 @@ class Graph:
         return self.weights[(from_node, to_node)]
 
     def BFS(self, wgraph, s, target):
-        
         parents = {}
         parents[s] = None
-
         visited = { gi: False for gi in self.edges.keys() }
-        
         queue = []
         queue.append(s)
-
         visited[s] = True
 
         while queue:
-            
             s = queue.pop(0)
             draw_square(wgraph, s)
-            # print(s, end= " ")
             
             if s == target:
                 break
@@ -43,27 +37,20 @@ class Graph:
         return parents
 
     def DFS(self, wgraph, s, target):
- 
         parents = {}
         parents[s] = None
-        
         visited = { gi: False for gi in self.edges.keys() }
-
         queue = []
         queue.append(s)
-
         visited[s] = True
 
         while queue:
-            
             s = queue.pop()
             draw_square(wgraph, s)
             
             if s == target:
                 break
-            
-            # print(s, end= " ")
-            
+                        
             for i in self.edges[s]:
                 if not visited[i]:
                     queue.append(i)
@@ -73,13 +60,12 @@ class Graph:
         return parents
 
     def pathfromOrigin(self, origin, n, parents):
-        
         if origin == n:
             return []
 
         pathO = [n]
         i = n
-
+        
         while True:
             i = parents[i]
             pathO.insert(0, i)
@@ -90,7 +76,7 @@ def heuristic(H ,id):
     """
     Builds 'H' heuristic
     """
-    L1 = {
+    H1 = {
         '0,0': 3.215, '0,1': 4.363, '0,2': 1.426, '0,3': 1.14,  '0,4': 4.541,
         '1,0': 5.261, '1,1': 1.941, '1,2': 1.666, '1,3': 1.657, '1,4': 4.103,
         '2,0': 4.845, '2,1': 1.046, '2,2': 2.308, '2,3': 1.311, '2,4': 5.221,
@@ -103,7 +89,7 @@ def heuristic(H ,id):
         '9,0': 4.556, '9,1': 3.521, '9,2': 5.934, '9,3': 4.35,  '9,4': 2.705
     }
     
-    L2 = {
+    H2 = {
         '0,0': 3.48, '0,1': 1.76, '0,2': 5.07, '0,3': 5.45, '0,4': 4.44,
         '1,0': 5.47, '1,1': 2.28, '1,2': 3.79, '1,3': 1.75, '1,4': 2.37,
         '2,0': 5.95, '2,1': 3.55, '2,2': 4.42, '2,3': 2.38, '2,4': 3.56,
@@ -111,7 +97,7 @@ def heuristic(H ,id):
         '4,0': 5.15, '4,1': 1.67, '4,2': 5.87, '4,3': 5.89, '4,4': 5.62
     }
 
-    return L1[id] if H else L2[id]
+    return H1[id] if H else H2[id]
 
 def geo_pos(G, id):
     """
@@ -154,9 +140,6 @@ def draw_square(graph, node_id, correction = 500, color="medium sea green", scal
     To animante the shortest path a single turtle object is 
     define outside the function and passed as parameter
     """
-    
-    # correctionx = 600 if graph else 182
-    # correctiony = 327 if graph else 196
     
     if ts == None:
         ts = t.Turtle(shape="square")
@@ -412,7 +395,7 @@ def main(argv):
         graph = int(argv[0])
         startNode = argv[1]
         
-        # Always Bucarest due to heuristic is given for this end city
+        # Always these ends due to mazo img, the heuristic given is random...
         endGraph1 = '9,4'
         endGraph2 = '4,0'
 
@@ -592,25 +575,24 @@ def main(argv):
 
         # DRAW ALL SEARCHS
         
+        # Draw BFS
         drawBFS(graph, G1, G2, startNode, endGraph1, endGraph2)
         time.sleep(2)
         t.clearscreen()
-        
+        # Draw DFS
         drawDFS(graph, G1, G2, startNode, endGraph1, endGraph2)
         time.sleep(2)
         t.clearscreen()
-        
+        # Draw Greedy
         drawGreedy(graph, G1, G2, startNode, endGraph1, endGraph2)
         time.sleep(2)
         t.clearscreen()
-        
+        # Draw A*
         drawAstar(graph, G1, G2, startNode, endGraph1, endGraph2)
         time.sleep(2)
-        # t.clearscreen()
+        t.clearscreen()
         
-        """
-        CODIGO
-        """
+        print('Program finished.')
         
         t.exitonclick()  # Al hacer clic sobre la ventana grafica se cerrara
 
